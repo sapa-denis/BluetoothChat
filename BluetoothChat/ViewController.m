@@ -114,10 +114,30 @@ static NSString *const kServiceType = @"sapa-textchat";
 #pragma mark - MCSessionDelegate
 
 - (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
-{}
+{
+	switch (state) {
+		case MCSessionStateConnected:
+			NSLog(@"connected");
+			break;
+		case MCSessionStateNotConnected:
+			NSLog(@"disconnected");
+			self.currentSession = nil;
+			[self.connect setHidden:NO];
+			[self.disconnect setHidden:YES];
+			break;
+		default:
+			break;
+	}
+}
 
 - (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
-{}
+{
+	NSString *message =
+	[[NSString alloc] initWithData:data
+						  encoding:NSUTF8StringEncoding];
+	NSLog(@"%@", message);
+	self.txtMessage.text = message;
+}
 
 //- (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID
 //{}
