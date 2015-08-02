@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA373C551B6E939B009ACDEC /* BTCChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA373C541B6E939B009ACDEC /* BTCChatViewController.m */; };
 		EAE73DCC1B6CD4C600E7515D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE73DCB1B6CD4C600E7515D /* main.m */; };
 		EAE73DCF1B6CD4C600E7515D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE73DCE1B6CD4C600E7515D /* AppDelegate.m */; };
-		EAE73DD21B6CD4C600E7515D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE73DD11B6CD4C600E7515D /* ViewController.m */; };
+		EAE73DD21B6CD4C600E7515D /* BTCConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE73DD11B6CD4C600E7515D /* BTCConnectViewController.m */; };
 		EAE73DD51B6CD4C600E7515D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EAE73DD31B6CD4C600E7515D /* Main.storyboard */; };
 		EAE73DD71B6CD4C600E7515D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAE73DD61B6CD4C600E7515D /* Images.xcassets */; };
 		EAE73DDA1B6CD4C600E7515D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EAE73DD81B6CD4C600E7515D /* LaunchScreen.xib */; };
@@ -30,13 +31,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EA373C531B6E939B009ACDEC /* BTCChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCChatViewController.h; sourceTree = "<group>"; };
+		EA373C541B6E939B009ACDEC /* BTCChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTCChatViewController.m; sourceTree = "<group>"; };
 		EAE73DC61B6CD4C500E7515D /* BluetoothChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BluetoothChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAE73DCA1B6CD4C600E7515D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EAE73DCB1B6CD4C600E7515D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EAE73DCD1B6CD4C600E7515D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EAE73DCE1B6CD4C600E7515D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		EAE73DD01B6CD4C600E7515D /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		EAE73DD11B6CD4C600E7515D /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		EAE73DD01B6CD4C600E7515D /* BTCConnectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BTCConnectViewController.h; sourceTree = "<group>"; };
+		EAE73DD11B6CD4C600E7515D /* BTCConnectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BTCConnectViewController.m; sourceTree = "<group>"; };
 		EAE73DD41B6CD4C600E7515D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EAE73DD61B6CD4C600E7515D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EAE73DD91B6CD4C600E7515D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -93,8 +96,10 @@
 			children = (
 				EAE73DCD1B6CD4C600E7515D /* AppDelegate.h */,
 				EAE73DCE1B6CD4C600E7515D /* AppDelegate.m */,
-				EAE73DD01B6CD4C600E7515D /* ViewController.h */,
-				EAE73DD11B6CD4C600E7515D /* ViewController.m */,
+				EAE73DD01B6CD4C600E7515D /* BTCConnectViewController.h */,
+				EAE73DD11B6CD4C600E7515D /* BTCConnectViewController.m */,
+				EA373C531B6E939B009ACDEC /* BTCChatViewController.h */,
+				EA373C541B6E939B009ACDEC /* BTCChatViewController.m */,
 				EAE73DD31B6CD4C600E7515D /* Main.storyboard */,
 				EAE73DC91B6CD4C600E7515D /* Supporting Files */,
 			);
@@ -239,8 +244,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EAE73DD21B6CD4C600E7515D /* ViewController.m in Sources */,
+				EAE73DD21B6CD4C600E7515D /* BTCConnectViewController.m in Sources */,
 				EAE73DCF1B6CD4C600E7515D /* AppDelegate.m in Sources */,
+				EA373C551B6E939B009ACDEC /* BTCChatViewController.m in Sources */,
 				EAE73DCC1B6CD4C600E7515D /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -438,6 +444,7 @@
 				EAE73DEB1B6CD4C600E7515D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EAE73DEC1B6CD4C600E7515D /* Build configuration list for PBXNativeTarget "BluetoothChatTests" */ = {
 			isa = XCConfigurationList;
@@ -446,6 +453,7 @@
 				EAE73DEE1B6CD4C600E7515D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

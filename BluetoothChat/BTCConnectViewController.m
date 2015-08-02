@@ -6,18 +6,17 @@
 //  Copyright (c) 2015 Sapa Denys. All rights reserved.
 //
 
-#import "ViewController.h"
-#import <GameKit/GameKit.h>
+#import "BTCConnectViewController.h"
+#import "BTCChatViewController.h"
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
 
 static NSString *const kServiceType = @"sapa-textchat";
 
-@interface ViewController () <MCBrowserViewControllerDelegate, MCSessionDelegate, MCNearbyServiceBrowserDelegate>
+@interface BTCConnectViewController () <MCBrowserViewControllerDelegate, MCSessionDelegate, MCNearbyServiceBrowserDelegate>
 
 @property (nonatomic, strong) MCSession *currentSession;
-@property (nonatomic, weak) IBOutlet UITextField *txtMessage;
+
 @property (nonatomic, weak) IBOutlet UIButton *connect;
-@property (nonatomic, weak) IBOutlet UIButton *disconnect;
 @property (nonatomic, strong) MCBrowserViewController *browserViewController;
 
 @property (nonatomic, strong) MCPeerID* localPeerID;
@@ -25,7 +24,7 @@ static NSString *const kServiceType = @"sapa-textchat";
 
 @end
 
-@implementation ViewController
+@implementation BTCConnectViewController
 
 - (void)viewDidLoad
 {
@@ -39,7 +38,6 @@ static NSString *const kServiceType = @"sapa-textchat";
 	
 	[super viewDidLoad];
 	[self.connect setHidden:NO];
-	[self.disconnect setHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -47,18 +45,7 @@ static NSString *const kServiceType = @"sapa-textchat";
 	[super didReceiveMemoryWarning];
 }
 
-- (IBAction)buttonSendTouchUp:(id) sender
-{
-	NSString *message = @"Hello, World!";
-	NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
-	NSError *error = nil;
-	if (![self.currentSession sendData:data
-							   toPeers:self.nearestPeers
-							  withMode:MCSessionSendDataReliable
-								 error:&error]) {
-		NSLog(@"[Error] %@", error);
-	}
-}
+
 
 - (IBAction)buttonConnectTouchUp:(id) sender
 {
@@ -78,17 +65,9 @@ static NSString *const kServiceType = @"sapa-textchat";
 					 }];
 	
 	[self.connect setHidden:YES];
-	[self.disconnect setHidden:NO];
 }
 
-- (IBAction)buttonDisconnectTouchUp:(id) sender
-{
-	[self.currentSession disconnect];
-	self.nearestPeers = nil;
-	self.currentSession = nil;
-	[self.connect setHidden:NO];
-	[self.disconnect setHidden:YES];
-}
+
 
 #pragma mark - MCBrowserViewControllerDelegate
 
@@ -98,12 +77,13 @@ static NSString *const kServiceType = @"sapa-textchat";
 											  completion:^{
 												  
 											  }];
+	
+	[self performSegueWithIdentifier:@"MessageSegue" sender:self];
 }
 
 - (void)browserViewControllerWasCancelled:(MCBrowserViewController *)browserViewController
 {
 	[self.connect setHidden:NO];
-	[self.disconnect setHidden:YES];
 	
 	[browserViewController dismissViewControllerAnimated:YES
 											  completion:^{
@@ -111,42 +91,7 @@ static NSString *const kServiceType = @"sapa-textchat";
 											  }];
 }
 
-#pragma mark - MCSessionDelegate
 
-- (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
-{
-	switch (state) {
-		case MCSessionStateConnected:
-			NSLog(@"connected");
-			break;
-		case MCSessionStateNotConnected:
-			NSLog(@"disconnected");
-			self.currentSession = nil;
-			[self.connect setHidden:NO];
-			[self.disconnect setHidden:YES];
-			break;
-		default:
-			break;
-	}
-}
-
-- (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
-{
-	NSString *message =
-	[[NSString alloc] initWithData:data
-						  encoding:NSUTF8StringEncoding];
-	NSLog(@"%@", message);
-	self.txtMessage.text = message;
-}
-
-//- (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID
-//{}
-
-//- (void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress
-//{}
-
-//- (void)session:(MCSession *)session didFinishReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID atURL:(NSURL *)localURL withError:(NSError *)error
-//{}
 
 #pragma mark - MCNearbyServiceBrowserDelegate
 
@@ -158,6 +103,16 @@ static NSString *const kServiceType = @"sapa-textchat";
 - (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID
 {
 	[self.nearestPeers removeObject:peerID];
+}
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(UITableViewCell *)sender
+{
+	if ([segue.identifier isEqualToString:@"MessageSegue"]) {
+		BTCChatViewController *destination = [segue destinationViewController];
+		destination.nearestPeers = self.nearestPeers;
+	}
 }
 
 @end

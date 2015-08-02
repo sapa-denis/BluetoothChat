@@ -20,10 +20,10 @@
             </objects>
             <point key="canvasLocation" x="-487" y="360"/>
         </scene>
-        <!--View Controller-->
+        <!--Connect View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="BTCConnectViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -33,7 +33,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ar8-fN-bgC">
-                                <rect key="frame" x="21" y="106" width="87" height="30"/>
+                                <rect key="frame" x="16" y="72" width="87" height="30"/>
                                 <state key="normal" title="Connect">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -41,48 +41,23 @@
                                     <action selector="buttonConnectTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DFT-60-7az"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJ2-fH-Gpg">
-                                <rect key="frame" x="21" y="144" width="87" height="30"/>
-                                <state key="normal" title="Disconnect">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="buttonDisconnectTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f7j-EL-ktz"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jzX-b9-euC">
-                                <rect key="frame" x="41" y="182" width="46" height="30"/>
-                                <state key="normal" title="Send">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="buttonSendTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="b0M-GQ-mXp"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vsg-tw-sMZ">
-                                <rect key="frame" x="16" y="220" width="97" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="u92-Da-Cm1"/>
                     <connections>
                         <outlet property="connect" destination="ar8-fN-bgC" id="Heq-Gq-PkJ"/>
-                        <outlet property="disconnect" destination="fJ2-fH-Gpg" id="gne-fm-W9L"/>
-                        <outlet property="txtMessage" destination="vsg-tw-sMZ" id="nib-Oq-jQw"/>
-                        <segue destination="KpQ-aB-gyn" kind="show" id="p78-y1-yGj"/>
+                        <segue destination="KpQ-aB-gyn" kind="show" identifier="MessageSegue" id="p78-y1-yGj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="249" y="360"/>
         </scene>
-        <!--View Controller-->
+        <!--Chat View Controller-->
         <scene sceneID="7eq-D8-alb">
             <objects>
-                <viewController id="KpQ-aB-gyn" sceneMemberID="viewController">
+                <viewController id="KpQ-aB-gyn" customClass="BTCChatViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="n8x-BF-XCc"/>
                         <viewControllerLayoutGuide type="bottom" id="3QL-P1-1wr"/>
@@ -90,8 +65,44 @@
                     <view key="view" contentMode="scaleToFill" id="kVg-GU-bwC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vsg-tw-sMZ">
+                                <rect key="frame" x="16" y="277" width="263" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jzX-b9-euC">
+                                <rect key="frame" x="16" y="239" width="46" height="30"/>
+                                <state key="normal" title="Send">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="buttonSendTouchUp:" destination="KpQ-aB-gyn" eventType="touchUpInside" id="Vxt-eK-rzf"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OpH-qc-8Hi">
+                                <rect key="frame" x="27" y="72" width="240" height="159"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJ2-fH-Gpg">
+                                <rect key="frame" x="192" y="239" width="87" height="30"/>
+                                <state key="normal" title="Disconnect">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="buttonDisconnectTouchUp:" destination="KpQ-aB-gyn" eventType="touchUpInside" id="7by-af-r0w"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="chatTextView" destination="OpH-qc-8Hi" id="ABd-rP-0Gx"/>
+                        <outlet property="disconnectButton" destination="fJ2-fH-Gpg" id="zQq-fX-cMX"/>
+                        <outlet property="messageField" destination="vsg-tw-sMZ" id="mRh-lI-Hag"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4mp-PJ-tOg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
