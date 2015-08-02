@@ -14,6 +14,9 @@
 		EAE73DD71B6CD4C600E7515D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EAE73DD61B6CD4C600E7515D /* Images.xcassets */; };
 		EAE73DDA1B6CD4C600E7515D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EAE73DD81B6CD4C600E7515D /* LaunchScreen.xib */; };
 		EAE73DE61B6CD4C600E7515D /* BluetoothChatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE73DE51B6CD4C600E7515D /* BluetoothChatTests.m */; };
+		EAE73DF01B6E2F7100E7515D /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE73DEF1B6E2F7100E7515D /* CoreBluetooth.framework */; };
+		EAE73DF21B6E2F7900E7515D /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE73DF11B6E2F7900E7515D /* GameKit.framework */; };
+		EAE73DF51B6E310700E7515D /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE73DF41B6E310700E7515D /* MultipeerConnectivity.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +43,9 @@
 		EAE73DDF1B6CD4C600E7515D /* BluetoothChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluetoothChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EAE73DE41B6CD4C600E7515D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EAE73DE51B6CD4C600E7515D /* BluetoothChatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BluetoothChatTests.m; sourceTree = "<group>"; };
+		EAE73DEF1B6E2F7100E7515D /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		EAE73DF11B6E2F7900E7515D /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		EAE73DF41B6E310700E7515D /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +53,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAE73DF51B6E310700E7515D /* MultipeerConnectivity.framework in Frameworks */,
+				EAE73DF21B6E2F7900E7515D /* GameKit.framework in Frameworks */,
+				EAE73DF01B6E2F7100E7515D /* CoreBluetooth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +74,7 @@
 			children = (
 				EAE73DC81B6CD4C500E7515D /* BluetoothChat */,
 				EAE73DE21B6CD4C600E7515D /* BluetoothChatTests */,
+				EAE73DF31B6E2F8E00E7515D /* Frameworks */,
 				EAE73DC71B6CD4C500E7515D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -86,8 +96,6 @@
 				EAE73DD01B6CD4C600E7515D /* ViewController.h */,
 				EAE73DD11B6CD4C600E7515D /* ViewController.m */,
 				EAE73DD31B6CD4C600E7515D /* Main.storyboard */,
-				EAE73DD61B6CD4C600E7515D /* Images.xcassets */,
-				EAE73DD81B6CD4C600E7515D /* LaunchScreen.xib */,
 				EAE73DC91B6CD4C600E7515D /* Supporting Files */,
 			);
 			path = BluetoothChat;
@@ -96,6 +104,8 @@
 		EAE73DC91B6CD4C600E7515D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				EAE73DD61B6CD4C600E7515D /* Images.xcassets */,
+				EAE73DD81B6CD4C600E7515D /* LaunchScreen.xib */,
 				EAE73DCA1B6CD4C600E7515D /* Info.plist */,
 				EAE73DCB1B6CD4C600E7515D /* main.m */,
 			);
@@ -117,6 +127,16 @@
 				EAE73DE41B6CD4C600E7515D /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EAE73DF31B6E2F8E00E7515D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EAE73DF41B6E310700E7515D /* MultipeerConnectivity.framework */,
+				EAE73DF11B6E2F7900E7515D /* GameKit.framework */,
+				EAE73DEF1B6E2F7100E7515D /* CoreBluetooth.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
