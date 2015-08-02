@@ -112,6 +112,7 @@ static NSString *const kServiceType = @"sapa-textchat";
 	if ([segue.identifier isEqualToString:@"MessageSegue"]) {
 		BTCChatViewController *destination = [segue destinationViewController];
 		destination.nearestPeers = self.nearestPeers;
+		destination.currentSession = self.currentSession;
 	}
 }
 
