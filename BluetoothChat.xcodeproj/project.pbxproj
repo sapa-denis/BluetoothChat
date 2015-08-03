@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		273729BB1B6F79A60005F5B6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273729BA1B6F79A60005F5B6 /* CoreGraphics.framework */; };
 		EA373C551B6E939B009ACDEC /* BTCChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA373C541B6E939B009ACDEC /* BTCChatViewController.m */; };
 		EAE73DCC1B6CD4C600E7515D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE73DCB1B6CD4C600E7515D /* main.m */; };
 		EAE73DCF1B6CD4C600E7515D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE73DCE1B6CD4C600E7515D /* AppDelegate.m */; };
@@ -16,7 +17,6 @@
 		EAE73DDA1B6CD4C600E7515D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EAE73DD81B6CD4C600E7515D /* LaunchScreen.xib */; };
 		EAE73DE61B6CD4C600E7515D /* BluetoothChatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE73DE51B6CD4C600E7515D /* BluetoothChatTests.m */; };
 		EAE73DF01B6E2F7100E7515D /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE73DEF1B6E2F7100E7515D /* CoreBluetooth.framework */; };
-		EAE73DF21B6E2F7900E7515D /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE73DF11B6E2F7900E7515D /* GameKit.framework */; };
 		EAE73DF51B6E310700E7515D /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE73DF41B6E310700E7515D /* MultipeerConnectivity.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		273729BA1B6F79A60005F5B6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		EA373C531B6E939B009ACDEC /* BTCChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCChatViewController.h; sourceTree = "<group>"; };
 		EA373C541B6E939B009ACDEC /* BTCChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTCChatViewController.m; sourceTree = "<group>"; };
 		EAE73DC61B6CD4C500E7515D /* BluetoothChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BluetoothChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,7 +48,6 @@
 		EAE73DE41B6CD4C600E7515D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EAE73DE51B6CD4C600E7515D /* BluetoothChatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BluetoothChatTests.m; sourceTree = "<group>"; };
 		EAE73DEF1B6E2F7100E7515D /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
-		EAE73DF11B6E2F7900E7515D /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		EAE73DF41B6E310700E7515D /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -56,8 +56,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				273729BB1B6F79A60005F5B6 /* CoreGraphics.framework in Frameworks */,
 				EAE73DF51B6E310700E7515D /* MultipeerConnectivity.framework in Frameworks */,
-				EAE73DF21B6E2F7900E7515D /* GameKit.framework in Frameworks */,
 				EAE73DF01B6E2F7100E7515D /* CoreBluetooth.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,8 +137,8 @@
 		EAE73DF31B6E2F8E00E7515D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				273729BA1B6F79A60005F5B6 /* CoreGraphics.framework */,
 				EAE73DF41B6E310700E7515D /* MultipeerConnectivity.framework */,
-				EAE73DF11B6E2F7900E7515D /* GameKit.framework */,
 				EAE73DEF1B6E2F7100E7515D /* CoreBluetooth.framework */,
 			);
 			name = Frameworks;
@@ -193,6 +193,12 @@
 				TargetAttributes = {
 					EAE73DC51B6CD4C500E7515D = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 7W5JJ9NMG7;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 0;
+							};
+						};
 					};
 					EAE73DDE1B6CD4C600E7515D = {
 						CreatedOnToolsVersion = 6.4;
@@ -375,6 +381,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = BluetoothChat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -385,6 +392,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = BluetoothChat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
