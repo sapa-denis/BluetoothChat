@@ -17,6 +17,8 @@ static NSString *const kServiceType = @"sapa-textchat";
 @property (nonatomic, strong) MCSession *currentSession;
 
 @property (nonatomic, weak) IBOutlet UIButton *connect;
+
+@property (strong, nonatomic) MCNearbyServiceBrowser *browser;
 @property (nonatomic, strong) MCBrowserViewController *browserViewController;
 
 @property (nonatomic, strong) MCPeerID* localPeerID;
@@ -35,34 +37,43 @@ static NSString *const kServiceType = @"sapa-textchat";
 - (void)viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
-	
-	_nearestPeers = [NSMutableArray new];
-	
-	_localPeerID = [[MCPeerID alloc] initWithDisplayName:[[UIDevice currentDevice] name]];
-	
-	_currentSession = [[MCSession alloc] initWithPeer:self.localPeerID
+	MCPeerID *peerID = [[MCPeerID alloc] initWithDisplayName:[[UIDevice currentDevice] name]];
+	_currentSession = [[MCSession alloc] initWithPeer:peerID
 									 securityIdentity:nil
 								 encryptionPreference:MCEncryptionRequired];
-	
 	_currentSession.delegate = self;
-	
-	
-	
-	MCNearbyServiceAdvertiser *advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:self.localPeerID discoveryInfo:nil serviceType:kServiceType];
-	advertiser.delegate = self;
-	
-	MCNearbyServiceBrowser *browser = [[MCNearbyServiceBrowser alloc] initWithPeer:self.localPeerID
-																	   serviceType:kServiceType];
-	browser.delegate = self;
-	
-	[advertiser startAdvertisingPeer];
-	[browser startBrowsingForPeers];
+	_browser = [[MCNearbyServiceBrowser alloc] initWithPeer:peerID serviceType:kServiceType];
+	_browser.delegate = self;
+	[_browser startBrowsingForPeers];
 }
 
 - (void)didReceiveMemoryWarning
 {
 	[super didReceiveMemoryWarning];
 }
+
+#pragma mark - MCNearbyServiceBrowserDelegate methods
+
+- (void)browser:(MCNearbyServiceBrowser *)browser didNotStartBrowsingForPeers:(NSError *)error
+{
+	NSLog(@"didNotStartBrowsingForPeers: %@", error);
+}
+
+- (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info
+{
+	NSLog(@"foundPeer: %@", peerID.displayName);
+	if (([self.currentSession.myPeerID.displayName compare:peerID.displayName] == NSOrderedDescending)) {
+		NSLog(@"invitePeer: %@", peerID.displayName);
+		[browser invitePeer:peerID toSession:self.currentSession withContext:nil timeout:30.0];
+	}
+}
+
+- (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID
+{
+	NSLog(@"lostPeer: %@", peerID.displayName);
+}
+
+#pragma mark -
 
 
 
@@ -121,8 +132,13 @@ static NSString *const kServiceType = @"sapa-textchat";
 											  }];
 }
 
+
+
 - (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
-{}
+{
+	NSString *receivedMessage = [[NSString alloc] initWithData:data encoding: NSUTF8StringEncoding];
+	NSLog(@"%@", receivedMessage);
+}
 
 - (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID
 {}
@@ -148,17 +164,17 @@ static NSString *const kServiceType = @"sapa-textchat";
 	}
 }
 
-#pragma mark - MCNearbyServiceBrowserDelegate
-
-- (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info
-{
-	[self.nearestPeers addObject:peerID];
-}
-
-- (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID
-{
-	[self.nearestPeers removeObject:peerID];
-}
+//#pragma mark - MCNearbyServiceBrowserDelegate
+//
+//- (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info
+//{
+//	[self.nearestPeers addObject:peerID];
+//}
+//
+//- (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID
+//{
+//	[self.nearestPeers removeObject:peerID];
+//}
 
 #pragma mark - MCNearbyServiceAdvertiserDelegate methods
 
@@ -177,11 +193,11 @@ static NSString *const kServiceType = @"sapa-textchat";
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(UITableViewCell *)sender
 {
-	if ([segue.identifier isEqualToString:@"MessageSegue"]) {
-		BTCChatViewController *destination = [segue destinationViewController];
-		destination.nearestPeers = self.nearestPeers;
-		destination.currentSession = self.currentSession;
-	}
+//	if ([segue.identifier isEqualToString:@"MessageSegue"]) {
+//		BTCChatViewController *destination = [segue destinationViewController];
+//		destination.nearestPeers = self.nearestPeers;
+//		destination.currentSession = self.currentSession;
+//	}
 }
 
 @end
