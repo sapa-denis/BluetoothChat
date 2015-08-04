@@ -62,10 +62,6 @@
                                                             </tableViewCellContentView>
                                                         </tableViewCell>
                                                     </prototypes>
-                                                    <connections>
-                                                        <outlet property="dataSource" destination="kjU-ed-OrO" id="mo3-eI-4f0"/>
-                                                        <outlet property="delegate" destination="kjU-ed-OrO" id="0R5-pG-hAA"/>
-                                                    </connections>
                                                 </tableView>
                                             </subviews>
                                             <constraints>

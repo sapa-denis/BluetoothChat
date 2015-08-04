@@ -67,8 +67,10 @@
         return nil;
     }
     else {
-		return [[Message alloc] initWithText:message
-											  andSenderName:self.session.myPeerID.displayName];
+		Message *mssg = [[Message alloc] initWithText:message
+						andSenderName:self.session.myPeerID.displayName];
+		[self.delegate receivedMessage:mssg];
+		return nil;
     }
 }
 
@@ -123,7 +125,7 @@
         NSLog(@"invitePeer: %@", peerID.displayName);
         [browser invitePeer:peerID toSession:_session withContext:nil timeout:30.0];
 		
-		[self.delegate foundCompanion];
+//		[self.delegate foundCompanion];
     }
 }
 

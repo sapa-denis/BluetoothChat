@@ -40,9 +40,14 @@ static NSString *const kServiceType = @"sapa-textchat";
 {
 	_messagesContainer = [NSMutableArray arrayWithArray:@[]];
 	[super viewDidLoad];
-	[_sendButton setEnabled:NO];
-//	_dialog.tableView = self.chatTableView;
-//	_chatTableView.delegate = _dialog;
+//	[_sendButton setEnabled:NO];
+	
+	_dialog = [DialogTableViewController new];
+	_dialog.tableView = self.chatTableView;
+	_chatTableView.delegate = _dialog;
+	_chatTableView.dataSource = _dialog;
+	
+	[_chatTableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -53,7 +58,11 @@ static NSString *const kServiceType = @"sapa-textchat";
 	
 	self.sessionManager = [[SessionManager alloc] initWithDisplayName:_deviceName
 															  serviceType:kServiceType];
-	_sessionManager.delegate = self;
+//	_sessionManager.delegate = self;
+
+	
+	_dialog.sessionManager = _sessionManager;
+	_dialog.sessionManager.delegate = _dialog;
 }
 
 #pragma mark - UITableViewDataSource
@@ -79,49 +88,49 @@ static NSString *const kServiceType = @"sapa-textchat";
 	}
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-	return 1;
-}
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+//{
+//	return 1;
+//}
+//
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+//{
+//	if (![tableView isEqual:self.chatTableView]) {
+//		return 2;
+//	} else {
+//	
+//		return self.messagesContainer.count;
+//	}
+//}
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-	if (![tableView isEqual:self.chatTableView]) {
-		return 2;
-	} else {
-	
-		return self.messagesContainer.count;
-	}
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	if (tableView == self.chatTableView) {
-		Message *message = [self.messagesContainer objectAtIndex:indexPath.row];
-		
-		UITableViewCell *cell = [self.chatTableView dequeueReusableCellWithIdentifier:@"MessageCell"];
-		
-		cell.textLabel.text = message.messageText;
-		if ([message.senderName isEqualToString:self.deviceName]) {
-			cell.detailTextLabel.text = @"Me";
-		} else {
-			cell.detailTextLabel.text = message.senderName;
-		}
-		
-		return cell;
-	} else {
-		return [super tableView:tableView cellForRowAtIndexPath:indexPath];
-	}
-}
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//	if (tableView == self.chatTableView) {
+////		Message *message = [self.messagesContainer objectAtIndex:indexPath.row];
+////		
+////		UITableViewCell *cell = [self.chatTableView dequeueReusableCellWithIdentifier:@"MessageCell"];
+////		
+////		cell.textLabel.text = message.messageText;
+////		if ([message.senderName isEqualToString:self.deviceName]) {
+////			cell.detailTextLabel.text = @"Me";
+////		} else {
+////			cell.detailTextLabel.text = message.senderName;
+////		}
+////		
+////		return cell;
+//	} else {
+//		return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+//	}
+//}
 
 #pragma mark - SessionContainerDelegate
 
-- (void)receivedMessage:(Message *)message
-{
-	dispatch_async(dispatch_get_main_queue(), ^{
-		[self insertNewMessage:message];
-	});
-}
+//- (void)receivedMessage:(Message *)message
+//{
+//	dispatch_async(dispatch_get_main_queue(), ^{
+//		[self insertNewMessage:message];
+//	});
+//}
 
 - (void)foundCompanion
 {
@@ -138,9 +147,9 @@ static NSString *const kServiceType = @"sapa-textchat";
 	self.messageTextField.text = @"";
 	if (![message isEqualToString:@""]) {
 		Message *newMessage =[self.sessionManager sendMessage:message];
-		if (newMessage) {
-			[self insertNewMessage:newMessage];
-		}
+//		if (newMessage) {
+//			[self insertNewMessage:newMessage];
+//		}
 	}
 }
 
@@ -156,23 +165,23 @@ static NSString *const kServiceType = @"sapa-textchat";
 
 #pragma mark - private methods
 
-- (void)insertNewMessage:(Message *)message
-{
-	[self.messagesContainer addObject:message];
-	
-	
-	[self.chatTableView beginUpdates];
-	
-	NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:([self.messagesContainer count] - 1) inSection:0];
-	[self.chatTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
-							  withRowAnimation:UITableViewRowAnimationFade];
-	
-	[self.chatTableView endUpdates];
-	
-	NSUInteger numberOfRows = [self.chatTableView numberOfRowsInSection:0];
-	if (numberOfRows) {
-		[self.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(numberOfRows - 1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-	}
-}
+//- (void)insertNewMessage:(Message *)message
+//{
+//	[self.messagesContainer addObject:message];
+//	
+//	
+//	[self.chatTableView beginUpdates];
+//	
+//	NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:([self.messagesContainer count] - 1) inSection:0];
+//	[self.chatTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
+//							  withRowAnimation:UITableViewRowAnimationFade];
+//	
+//	[self.chatTableView endUpdates];
+//	
+//	NSUInteger numberOfRows = [self.chatTableView numberOfRowsInSection:0];
+//	if (numberOfRows) {
+//		[self.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(numberOfRows - 1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+//	}
+//}
 
 @end

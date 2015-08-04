@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SessionManager.h"
 
-@interface DialogTableViewController : NSObject <UITableViewDelegate>
+@interface DialogTableViewController : NSObject <UITableViewDelegate, UITableViewDataSource, SessionManagerDelegate>
 
 @property (nonatomic, weak) UITableView *tableView;
+@property (nonatomic, strong) SessionManager *sessionManager;
+@property (nonatomic, strong) NSMutableArray *messagesContainer;
 
 @end
