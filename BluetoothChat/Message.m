@@ -10,5 +10,15 @@
 
 @implementation Message
 
+- (instancetype)initWithText:(NSString *)messgeText
+			   andSenderName:(NSString *)senderName
+{
+	self = [super init];
+	if (self) {
+		_messageText = messgeText;
+		_senderName = senderName;
+	}
+	return self;
+}
 
 @end

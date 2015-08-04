@@ -10,6 +10,9 @@
 
 @interface Message : NSObject
 
+- (instancetype)initWithText:(NSString *)messgeText
+			   andSenderName:(NSString *)senderName;
+
 @property (nonatomic, copy) NSString *senderName;
 @property (nonatomic, copy) NSString *messageText;
 

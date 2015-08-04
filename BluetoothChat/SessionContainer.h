@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
 
-@class Transcript;
+@class Message;
 
 @protocol SessionContainerDelegate;
 
@@ -14,14 +14,14 @@
 
 - (id)initWithDisplayName:(NSString *)displayName serviceType:(NSString *)serviceType;
 
-- (Transcript *)sendMessage:(NSString *)message;
+- (Message *)sendMessage:(NSString *)message;
 
 @end
 
 
 @protocol SessionContainerDelegate <NSObject>
 
-- (void)receivedTranscript:(Transcript *)transcript;
-- (void)updateTranscript:(Transcript *)transcript;
+- (void)receivedMessage:(Message *)transcript;
+- (void)updateTranscript:(Message *)transcript;
 
 @end

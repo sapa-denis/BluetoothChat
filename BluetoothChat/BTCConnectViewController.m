@@ -9,7 +9,6 @@
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
 
 #import "BTCConnectViewController.h"
-#import "BTCChatViewController.h"
 #import "SessionContainer.h"
 #import "Message.h"
 
@@ -24,8 +23,10 @@ static NSString *const kServiceType = @"sapa-textchat";
 @property (weak, nonatomic) IBOutlet UITextField *messageTextField;
 @property (weak, nonatomic) IBOutlet UITableView *chatTableView;
 
+@property (nonatomic, copy) NSString *deviceName;
+
 @property (nonatomic, strong) SessionContainer *sessionContainer;
-@property (nonatomic, strong) NSMutableArray *messageContainer;
+@property (nonatomic, strong) NSMutableArray *messagesContainer;
 
 @end
 
@@ -34,6 +35,7 @@ static NSString *const kServiceType = @"sapa-textchat";
 
 - (void)viewDidLoad
 {
+	_messagesContainer = [NSMutableArray arrayWithArray:@[]];
 	[super viewDidLoad];
 }
 
@@ -41,9 +43,9 @@ static NSString *const kServiceType = @"sapa-textchat";
 {
 	[super viewDidAppear:animated];
 	
-	NSString *deviceName = [[UIDevice currentDevice] name];
+	_deviceName = [[UIDevice currentDevice] name];
 	
-	self.sessionContainer = [[SessionContainer alloc] initWithDisplayName:deviceName
+	self.sessionContainer = [[SessionContainer alloc] initWithDisplayName:_deviceName
 															  serviceType:kServiceType];
 	_sessionContainer.delegate = self;
 }
@@ -66,8 +68,9 @@ static NSString *const kServiceType = @"sapa-textchat";
 		}
 		
 		return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+	} else {
+		return 44;
 	}
-	return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -78,7 +81,7 @@ static NSString *const kServiceType = @"sapa-textchat";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	if ([tableView isEqual:self.chatTableView]) {
-		return self.messageContainer.count;
+		return self.messagesContainer.count;
 	} else {
 		return [super tableView:tableView numberOfRowsInSection:section];
 	}
@@ -87,12 +90,16 @@ static NSString *const kServiceType = @"sapa-textchat";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if ([tableView isEqual:self.chatTableView]) {
-		Message *message = [self.messageContainer objectAtIndex:indexPath.row];
+		Message *message = [self.messagesContainer objectAtIndex:indexPath.row];
 		
 		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MessageCell" forIndexPath:indexPath];
 		
 		cell.textLabel.text = message.messageText;
-		cell.detailTextLabel.text = message.senderName;
+		if ([message.senderName isEqualToString:self.deviceName]) {
+			cell.detailTextLabel.text = @"Me";
+		} else {
+			cell.detailTextLabel.text = message.senderName;
+		}
 		
 		return cell;
 	} else {
@@ -112,15 +119,14 @@ static NSString *const kServiceType = @"sapa-textchat";
 
 #pragma mark - SessionContainerDelegate
 
-- (void)receivedTranscript:(Transcript *)transcript
+- (void)receivedMessage:(Message *)message
 {
-	
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self insertNewMessage:message];
+	});
 }
 
-- (void)updateTranscript:(Transcript *)transcript
-{
-	
-}
+#pragma mark - IBAction
 
 - (IBAction)sendButtonTouchUp:(id)sender
 {
@@ -129,7 +135,27 @@ static NSString *const kServiceType = @"sapa-textchat";
 	NSString *message = self.messageTextField.text;
 	self.messageTextField.text = @"";
 	if (![message isEqualToString:@""]) {
-		[self.sessionContainer sendMessage:message];
+		Message *newMessage =[self.sessionContainer sendMessage:message];
+		[self insertNewMessage:newMessage];
+	}
+}
+
+#pragma mark - private methods
+
+- (void)insertNewMessage:(Message *)message
+{
+	[self.messagesContainer addObject:message];
+	
+	[self.chatTableView beginUpdates];
+	NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:([self.messagesContainer count] - 1) inSection:0];
+	[self.chatTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
+							  withRowAnimation:UITableViewRowAnimationFade];
+	
+	[self.chatTableView endUpdates];
+	
+	NSUInteger numberOfRows = [self.chatTableView numberOfRowsInSection:0];
+	if (numberOfRows) {
+		[self.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(numberOfRows - 1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 	}
 }
 
