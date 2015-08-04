@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2726390D1B7096F900C745DC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2726390C1B7096F900C745DC /* AppDelegate.m */; };
 		272639101B70970A00C745DC /* SessionContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2726390F1B70970A00C745DC /* SessionContainer.m */; };
+		272639131B70E79700C745DC /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 272639121B70E79700C745DC /* Message.m */; };
 		273729BB1B6F79A60005F5B6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273729BA1B6F79A60005F5B6 /* CoreGraphics.framework */; };
 		EA373C551B6E939B009ACDEC /* BTCChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA373C541B6E939B009ACDEC /* BTCChatViewController.m */; };
 		EAE73DCC1B6CD4C600E7515D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE73DCB1B6CD4C600E7515D /* main.m */; };
@@ -36,6 +37,8 @@
 		2726390C1B7096F900C745DC /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2726390E1B70970A00C745DC /* SessionContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionContainer.h; sourceTree = "<group>"; };
 		2726390F1B70970A00C745DC /* SessionContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionContainer.m; sourceTree = "<group>"; };
+		272639111B70E79700C745DC /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		272639121B70E79700C745DC /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
 		273729BA1B6F79A60005F5B6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		EA373C531B6E939B009ACDEC /* BTCChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTCChatViewController.h; sourceTree = "<group>"; };
 		EA373C541B6E939B009ACDEC /* BTCChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTCChatViewController.m; sourceTree = "<group>"; };
@@ -107,6 +110,8 @@
 				2726390F1B70970A00C745DC /* SessionContainer.m */,
 				EAE73DD31B6CD4C600E7515D /* Main.storyboard */,
 				EAE73DC91B6CD4C600E7515D /* Supporting Files */,
+				272639111B70E79700C745DC /* Message.h */,
+				272639121B70E79700C745DC /* Message.m */,
 			);
 			path = BluetoothChat;
 			sourceTree = "<group>";
@@ -256,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EAE73DD21B6CD4C600E7515D /* BTCConnectViewController.m in Sources */,
+				272639131B70E79700C745DC /* Message.m in Sources */,
 				EA373C551B6E939B009ACDEC /* BTCChatViewController.m in Sources */,
 				272639101B70970A00C745DC /* SessionContainer.m in Sources */,
 				EAE73DCC1B6CD4C600E7515D /* main.m in Sources */,

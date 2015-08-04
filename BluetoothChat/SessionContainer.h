@@ -8,8 +8,8 @@
 
 @interface SessionContainer : NSObject <MCSessionDelegate>
 
-@property (readonly, nonatomic) MCSession *session;
-@property (assign, nonatomic) id<SessionContainerDelegate> delegate;
+@property (nonatomic, strong) MCSession *session;
+@property (nonatomic, weak) id<SessionContainerDelegate> delegate;
 
 
 - (id)initWithDisplayName:(NSString *)displayName serviceType:(NSString *)serviceType;

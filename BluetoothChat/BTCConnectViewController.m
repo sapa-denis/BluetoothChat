@@ -6,19 +6,29 @@
 //  Copyright (c) 2015 Sapa Denys. All rights reserved.
 //
 
+#import <MultipeerConnectivity/MultipeerConnectivity.h>
+
 #import "BTCConnectViewController.h"
 #import "BTCChatViewController.h"
 #import "SessionContainer.h"
-#import <MultipeerConnectivity/MultipeerConnectivity.h>
+#import "Message.h"
+
 
 static NSString *const kServiceType = @"sapa-textchat";
 
 
 
-@interface BTCConnectViewController () <SessionContainerDelegate>
+@interface BTCConnectViewController () <UITableViewDelegate, UITableViewDataSource, SessionContainerDelegate>
+
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *sendButton;
+@property (weak, nonatomic) IBOutlet UITextField *messageTextField;
 
 @property (nonatomic, strong) MCPeerID* localPeerID;
-@property (retain, nonatomic) SessionContainer *sessionContainer;
+@property (nonatomic, strong) SessionContainer *sessionContainer;
+
+@property (nonatomic, strong) NSMutableArray *messageContainer;
+
+
 
 @end
 
@@ -41,10 +51,31 @@ static NSString *const kServiceType = @"sapa-textchat";
 	_sessionContainer.delegate = self;
 }
 
-- (void)didReceiveMemoryWarning
+#pragma mark - UITableViewDataSource
+
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	[super didReceiveMemoryWarning];
+	return 1;
 }
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	return self.messageContainer.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	Message *message = [self.messageContainer objectAtIndex:indexPath.row];
+	
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MessageCell" forIndexPath:indexPath];
+
+	cell.textLabel.text = message.messageText;
+	cell.detailTextLabel.text = message.senderName;
+	
+	return cell;
+}
+
 
 #pragma mark - SessionContainerDelegate
 
@@ -56,6 +87,17 @@ static NSString *const kServiceType = @"sapa-textchat";
 - (void)updateTranscript:(Transcript *)transcript
 {
 	
+}
+
+- (IBAction)sendButtonTouchUp:(id)sender
+{
+	[self.messageTextField resignFirstResponder];
+	
+	NSString *message = self.messageTextField.text;
+	self.messageTextField.text = @"";
+	if (![message isEqualToString:@""]) {
+		[self.sessionContainer sendMessage:message];
+	}
 }
 
 @end

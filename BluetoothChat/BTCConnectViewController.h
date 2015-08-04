@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BTCConnectViewController : UITableViewController
+@interface BTCConnectViewController : UIViewController
 
 
 @end
