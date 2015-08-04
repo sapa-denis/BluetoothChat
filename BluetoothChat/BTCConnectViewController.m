@@ -20,7 +20,7 @@ static NSString *const kServiceType = @"sapa-textchat";
 
 @interface BTCConnectViewController () <UITableViewDelegate, UITableViewDataSource, SessionContainerDelegate>
 
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *sendButton;
+@property (weak, nonatomic) IBOutlet UIButton *sendButton;
 @property (weak, nonatomic) IBOutlet UITextField *messageTextField;
 
 @property (nonatomic, strong) MCPeerID* localPeerID;
@@ -54,27 +54,28 @@ static NSString *const kServiceType = @"sapa-textchat";
 #pragma mark - UITableViewDataSource
 
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-	return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-	return self.messageContainer.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	Message *message = [self.messageContainer objectAtIndex:indexPath.row];
-	
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MessageCell" forIndexPath:indexPath];
-
-	cell.textLabel.text = message.messageText;
-	cell.detailTextLabel.text = message.senderName;
-	
-	return cell;
-}
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+//{
+//	return 1;
+//}
+//
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+//{
+//	return self.messageContainer.count;
+//}
+//
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//
+//	Message *message = [self.messageContainer objectAtIndex:indexPath.row];
+//	
+//	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MessageCell" forIndexPath:indexPath];
+//
+//	cell.textLabel.text = message.messageText;
+//	cell.detailTextLabel.text = message.senderName;
+//	
+//	return cell;
+//}
 
 
 #pragma mark - SessionContainerDelegate
