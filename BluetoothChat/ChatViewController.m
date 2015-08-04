@@ -8,16 +8,17 @@
 
 #import <MultipeerConnectivity/MultipeerConnectivity.h>
 
-#import "BTCConnectViewController.h"
-#import "SessionContainer.h"
+#import "ChatViewController.h"
+#import "SessionManager.h"
 #import "Message.h"
+#import "DialogTableViewController.h"
 
 
 static NSString *const kServiceType = @"sapa-textchat";
 
 
 
-@interface BTCConnectViewController () <SessionContainerDelegate>
+@interface ChatViewController () <SessionManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
 @property (weak, nonatomic) IBOutlet UITextField *messageTextField;
@@ -25,18 +26,23 @@ static NSString *const kServiceType = @"sapa-textchat";
 
 @property (nonatomic, copy) NSString *deviceName;
 
-@property (nonatomic, strong) SessionContainer *sessionContainer;
+@property (nonatomic, strong) SessionManager *sessionManager;
 @property (nonatomic, strong) NSMutableArray *messagesContainer;
+
+@property (nonatomic, strong) DialogTableViewController *dialog;
 
 @end
 
 
-@implementation BTCConnectViewController
+@implementation ChatViewController
 
 - (void)viewDidLoad
 {
 	_messagesContainer = [NSMutableArray arrayWithArray:@[]];
 	[super viewDidLoad];
+	[_sendButton setEnabled:NO];
+//	_dialog.tableView = self.chatTableView;
+//	_chatTableView.delegate = _dialog;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -45,9 +51,9 @@ static NSString *const kServiceType = @"sapa-textchat";
 	
 	_deviceName = [[UIDevice currentDevice] name];
 	
-	self.sessionContainer = [[SessionContainer alloc] initWithDisplayName:_deviceName
+	self.sessionManager = [[SessionManager alloc] initWithDisplayName:_deviceName
 															  serviceType:kServiceType];
-	_sessionContainer.delegate = self;
+	_sessionManager.delegate = self;
 }
 
 #pragma mark - UITableViewDataSource
@@ -80,19 +86,20 @@ static NSString *const kServiceType = @"sapa-textchat";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	if ([tableView isEqual:self.chatTableView]) {
-		return self.messagesContainer.count;
+	if (![tableView isEqual:self.chatTableView]) {
+		return 2;
 	} else {
-		return [super tableView:tableView numberOfRowsInSection:section];
+	
+		return self.messagesContainer.count;
 	}
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if ([tableView isEqual:self.chatTableView]) {
+	if (tableView == self.chatTableView) {
 		Message *message = [self.messagesContainer objectAtIndex:indexPath.row];
 		
-		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MessageCell" forIndexPath:indexPath];
+		UITableViewCell *cell = [self.chatTableView dequeueReusableCellWithIdentifier:@"MessageCell"];
 		
 		cell.textLabel.text = message.messageText;
 		if ([message.senderName isEqualToString:self.deviceName]) {
@@ -107,16 +114,6 @@ static NSString *const kServiceType = @"sapa-textchat";
 	}
 }
 
-- (IBAction)swipeOnMessegeFieldCell:(UIPanGestureRecognizer *)sender
-{
-	CGFloat offsetByY = [sender velocityInView:self.tableView].y;
-	if (offsetByY > 0) {
-		[self.messageTextField resignFirstResponder];
-	} else if (offsetByY < 0) {
-		[self.messageTextField becomeFirstResponder];
-	}
-}
-
 #pragma mark - SessionContainerDelegate
 
 - (void)receivedMessage:(Message *)message
@@ -124,6 +121,11 @@ static NSString *const kServiceType = @"sapa-textchat";
 	dispatch_async(dispatch_get_main_queue(), ^{
 		[self insertNewMessage:message];
 	});
+}
+
+- (void)foundCompanion
+{
+	[self.sendButton setEnabled:YES];
 }
 
 #pragma mark - IBAction
@@ -135,8 +137,20 @@ static NSString *const kServiceType = @"sapa-textchat";
 	NSString *message = self.messageTextField.text;
 	self.messageTextField.text = @"";
 	if (![message isEqualToString:@""]) {
-		Message *newMessage =[self.sessionContainer sendMessage:message];
-		[self insertNewMessage:newMessage];
+		Message *newMessage =[self.sessionManager sendMessage:message];
+		if (newMessage) {
+			[self insertNewMessage:newMessage];
+		}
+	}
+}
+
+- (IBAction)swipeOnMessegeFieldCell:(UIPanGestureRecognizer *)sender
+{
+	CGFloat offsetByY = [sender velocityInView:self.tableView].y;
+	if (offsetByY > 0) {
+		[self.messageTextField resignFirstResponder];
+	} else if (offsetByY < 0) {
+		[self.messageTextField becomeFirstResponder];
 	}
 }
 
@@ -146,7 +160,9 @@ static NSString *const kServiceType = @"sapa-textchat";
 {
 	[self.messagesContainer addObject:message];
 	
+	
 	[self.chatTableView beginUpdates];
+	
 	NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:([self.messagesContainer count] - 1) inSection:0];
 	[self.chatTableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
 							  withRowAnimation:UITableViewRowAnimationFade];

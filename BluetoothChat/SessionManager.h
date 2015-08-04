@@ -3,13 +3,13 @@
 
 @class Message;
 
-@protocol SessionContainerDelegate;
+@protocol SessionManagerDelegate;
 
 
-@interface SessionContainer : NSObject <MCSessionDelegate>
+@interface SessionManager : NSObject <MCSessionDelegate>
 
 @property (nonatomic, strong) MCSession *session;
-@property (nonatomic, weak) id<SessionContainerDelegate> delegate;
+@property (nonatomic, weak) id<SessionManagerDelegate> delegate;
 
 
 - (id)initWithDisplayName:(NSString *)displayName serviceType:(NSString *)serviceType;
@@ -19,9 +19,9 @@
 @end
 
 
-@protocol SessionContainerDelegate <NSObject>
+@protocol SessionManagerDelegate <NSObject>
 
-- (void)receivedMessage:(Message *)transcript;
-- (void)updateTranscript:(Message *)transcript;
+- (void)receivedMessage:(Message *)message;
+- (void)foundCompanion;
 
 @end

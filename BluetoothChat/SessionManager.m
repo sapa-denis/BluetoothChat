@@ -1,15 +1,15 @@
 @import MultipeerConnectivity;
 
-#import "SessionContainer.h"
+#import "SessionManager.h"
 #import "Message.h"
 
-@interface SessionContainer() <MCNearbyServiceBrowserDelegate, MCNearbyServiceAdvertiserDelegate>
+@interface SessionManager() <MCNearbyServiceBrowserDelegate, MCNearbyServiceAdvertiserDelegate>
 
 @property (strong, nonatomic) MCNearbyServiceAdvertiser *advertiser;
 @property (strong, nonatomic) MCNearbyServiceBrowser *browser;
 @end
 
-@implementation SessionContainer
+@implementation SessionManager
 
 
 - (id)initWithDisplayName:(NSString *)displayName serviceType:(NSString *)serviceType
@@ -55,63 +55,37 @@
 
 #pragma mark - Public methods
 
-//- (void)openSearchBrouserFromViewController:(UIViewController *)parentController
-//{
-//	MCBrowserViewController *browserViewController =
-//	[[MCBrowserViewController alloc] initWithBrowser:_browser
-//											 session:self.session];
-//	
-//	
-//	browserViewController.delegate = self;
-//	
-//	[parentController presentViewController:browserViewController
-//								   animated:YES
-//								 completion:^{
-//									 [_advertiser startAdvertisingPeer];
-//									 [_browser startBrowsingForPeers];
-//								 }];
-//}
-
-// Instance method for sending a string bassed text message to all remote peers
 - (Message *)sendMessage:(NSString *)message
 {
-    // Convert the string into a UTF8 encoded data
     NSData *messageData = [message dataUsingEncoding:NSUTF8StringEncoding];
-    // Send text message to all connected peers
     NSError *error;
     [self.session sendData:messageData toPeers:self.session.connectedPeers
 				  withMode:MCSessionSendDataReliable
 					 error:&error];
-    // Check the error return to know if there was an issue sending data to peers.  Note any peers in the 'toPeers' array argument are not connected this will fail.
     if (error) {
         NSLog(@"Error sending message to peers [%@]", error);
         return nil;
     }
     else {
-        // Create a new send transcript
-		Message *newMessage = [Message new];
-		newMessage.senderName =self.session.myPeerID.displayName;
-		newMessage.messageText = message;
-        return newMessage;
+		return [[Message alloc] initWithText:message
+											  andSenderName:self.session.myPeerID.displayName];
     }
 }
 
 #pragma mark - MCSessionDelegate methods
 
-// Override this method to handle changes to peer session state
 - (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
 {
-//    NSLog(@"Peer [%@] changed state to %@", peerID.displayName, [self stringForPeerConnectionState:state]);
-//
-//    NSString *adminMessage = [NSString stringWithFormat:@"'%@' is %@", peerID.displayName, [self stringForPeerConnectionState:state]];
-//    // Create an local transcript
-//    Transcript *transcript = [[Transcript alloc] initWithPeerID:peerID message:adminMessage direction:TRANSCRIPT_DIRECTION_LOCAL];
-//
-//    // Notify the delegate that we have received a new chunk of data from a peer
-//    [self.delegate receivedTranscript:transcript];
+    NSLog(@"Peer [%@] changed state to %@", peerID.displayName, [self stringForPeerConnectionState:state]);
+
+    NSString *adminMessage = [NSString stringWithFormat:@"'%@' is %@", peerID.displayName, [self stringForPeerConnectionState:state]];
+
+    Message *message = [[Message alloc] initWithText:adminMessage andSenderName:@"info"];
+	if (message) {
+		[self.delegate receivedMessage:message];
+	}
 }
 
-// MCSession Delegate callback when receiving data from a peer in a given session
 - (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
 {
     NSString *receivedMessage = [[NSString alloc] initWithData:data encoding: NSUTF8StringEncoding];
@@ -148,6 +122,8 @@
     if (([_session.myPeerID.displayName compare:peerID.displayName] == NSOrderedDescending)) {
         NSLog(@"invitePeer: %@", peerID.displayName);
         [browser invitePeer:peerID toSession:_session withContext:nil timeout:30.0];
+		
+		[self.delegate foundCompanion];
     }
 }
 

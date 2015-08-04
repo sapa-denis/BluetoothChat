@@ -21,10 +21,10 @@
             </objects>
             <point key="canvasLocation" x="-487" y="360"/>
         </scene>
-        <!--Connect View Controller-->
+        <!--Chat View Controller-->
         <scene sceneID="m7x-vG-Hd9">
             <objects>
-                <tableViewController id="kjU-ed-OrO" customClass="BTCConnectViewController" sceneMemberID="viewController">
+                <tableViewController id="kjU-ed-OrO" customClass="ChatViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vDk-F2-4SQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -118,6 +118,10 @@
                                 </cells>
                             </tableViewSection>
                         </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="kjU-ed-OrO" id="ycs-CC-4VG"/>
+                            <outlet property="delegate" destination="kjU-ed-OrO" id="hys-Aq-sD1"/>
+                        </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="4iw-hf-5R0"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -134,7 +138,7 @@
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="583.5" y="108.5"/>
+            <point key="canvasLocation" x="530.5" y="148.5"/>
         </scene>
     </scenes>
 </document>
