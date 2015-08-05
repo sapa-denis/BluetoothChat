@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27115F341B7204DF0088D21B /* MessageMeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27115F331B7204DF0088D21B /* MessageMeTableViewCell.m */; };
 		2726390D1B7096F900C745DC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2726390C1B7096F900C745DC /* AppDelegate.m */; };
 		272639101B70970A00C745DC /* SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2726390F1B70970A00C745DC /* SessionManager.m */; };
 		272639131B70E79700C745DC /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 272639121B70E79700C745DC /* Message.m */; };
@@ -33,6 +34,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		27115F321B7204DF0088D21B /* MessageMeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageMeTableViewCell.h; sourceTree = "<group>"; };
+		27115F331B7204DF0088D21B /* MessageMeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageMeTableViewCell.m; sourceTree = "<group>"; };
 		2726390B1B7096F900C745DC /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2726390C1B7096F900C745DC /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2726390E1B70970A00C745DC /* SessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionManager.h; sourceTree = "<group>"; };
@@ -78,10 +81,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		27115F381B72066A0088D21B /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				27115F321B7204DF0088D21B /* MessageMeTableViewCell.h */,
+				27115F331B7204DF0088D21B /* MessageMeTableViewCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		27115F391B7208A80088D21B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2726390E1B70970A00C745DC /* SessionManager.h */,
+				2726390F1B70970A00C745DC /* SessionManager.m */,
+				272639111B70E79700C745DC /* Message.h */,
+				272639121B70E79700C745DC /* Message.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		27115F3A1B7208CE0088D21B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				EAE73DD01B6CD4C600E7515D /* ChatViewController.h */,
+				EAE73DD11B6CD4C600E7515D /* ChatViewController.m */,
+				EAAB90EC1B71829E007B99C3 /* DialogTableViewController.h */,
+				EAAB90ED1B71829E007B99C3 /* DialogTableViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
 		EAE73DBD1B6CD4C500E7515D = {
 			isa = PBXGroup;
 			children = (
 				EAE73DC81B6CD4C500E7515D /* BluetoothChat */,
+				EAE73DC91B6CD4C600E7515D /* Supporting Files */,
 				EAE73DE21B6CD4C600E7515D /* BluetoothChatTests */,
 				EAE73DF31B6E2F8E00E7515D /* Frameworks */,
 				EAE73DC71B6CD4C500E7515D /* Products */,
@@ -100,18 +135,12 @@
 		EAE73DC81B6CD4C500E7515D /* BluetoothChat */ = {
 			isa = PBXGroup;
 			children = (
+				27115F391B7208A80088D21B /* Models */,
+				27115F381B72066A0088D21B /* Cells */,
+				27115F3A1B7208CE0088D21B /* ViewControllers */,
 				2726390B1B7096F900C745DC /* AppDelegate.h */,
 				2726390C1B7096F900C745DC /* AppDelegate.m */,
-				EAE73DD01B6CD4C600E7515D /* ChatViewController.h */,
-				EAE73DD11B6CD4C600E7515D /* ChatViewController.m */,
-				2726390E1B70970A00C745DC /* SessionManager.h */,
-				2726390F1B70970A00C745DC /* SessionManager.m */,
 				EAE73DD31B6CD4C600E7515D /* Main.storyboard */,
-				EAE73DC91B6CD4C600E7515D /* Supporting Files */,
-				272639111B70E79700C745DC /* Message.h */,
-				272639121B70E79700C745DC /* Message.m */,
-				EAAB90EC1B71829E007B99C3 /* DialogTableViewController.h */,
-				EAAB90ED1B71829E007B99C3 /* DialogTableViewController.m */,
 			);
 			path = BluetoothChat;
 			sourceTree = "<group>";
@@ -125,6 +154,7 @@
 				EAE73DCB1B6CD4C600E7515D /* main.m */,
 			);
 			name = "Supporting Files";
+			path = BluetoothChat;
 			sourceTree = "<group>";
 		};
 		EAE73DE21B6CD4C600E7515D /* BluetoothChatTests */ = {
@@ -266,6 +296,7 @@
 				EAAB90EE1B71829E007B99C3 /* DialogTableViewController.m in Sources */,
 				EAE73DCC1B6CD4C600E7515D /* main.m in Sources */,
 				2726390D1B7096F900C745DC /* AppDelegate.m in Sources */,
+				27115F341B7204DF0088D21B /* MessageMeTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

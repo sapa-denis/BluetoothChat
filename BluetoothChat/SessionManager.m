@@ -69,7 +69,7 @@
     else {
 		Message *mssg = [[Message alloc] initWithText:message
 						andSenderName:self.session.myPeerID.displayName];
-		[self.delegate receivedMessage:mssg];
+		[self.chatDelegate receivedMessage:mssg];
 		return nil;
     }
 }
@@ -84,7 +84,7 @@
 
     Message *message = [[Message alloc] initWithText:adminMessage andSenderName:@"info"];
 	if (message) {
-		[self.delegate receivedMessage:message];
+		[self.chatDelegate receivedMessage:message];
 	}
 }
 
@@ -94,7 +94,7 @@
 	
 	Message *message = [[Message alloc] initWithText:receivedMessage andSenderName:peerID.displayName];
 
-    [self.delegate receivedMessage:message];
+    [self.chatDelegate receivedMessage:message];
 }
 
 - (void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress
@@ -125,13 +125,16 @@
         NSLog(@"invitePeer: %@", peerID.displayName);
         [browser invitePeer:peerID toSession:_session withContext:nil timeout:30.0];
 		
-//		[self.delegate foundCompanion];
+		[self.stateDelegate foundCompanion];
     }
 }
 
 - (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID
 {
     NSLog(@"lostPeer: %@", peerID.displayName);
+	if ([[self.session connectedPeers] count] == 0) {
+		[self.stateDelegate lostAllCompanion];
+	}
 }
 
 #pragma mark - MCNearbyServiceAdvertiserDelegate methods

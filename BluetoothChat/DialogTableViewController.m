@@ -8,19 +8,46 @@
 
 #import "DialogTableViewController.h"
 #import "Message.h"
+#import "SessionManager.h"
+#import "MessageMeTableViewCell.h"
+
+
+
+@interface DialogTableViewController () <UITableViewDelegate, UITableViewDataSource, SessionManagerChatDelegate>
+
+@property (nonatomic, weak) UITableView *tableView;
+@property (nonatomic, strong) SessionManager *sessionManager;
+@property (nonatomic, strong) NSMutableArray *messagesContainer;
+
+@end
+
 
 @implementation DialogTableViewController
 
 #pragma mark - UITableViewDataSource
 
--(instancetype)init
+- (instancetype)initWithSessionMagager:(SessionManager *)manager
+						  andTableView:(UITableView *)tableView
 {
 	self = [super init];
 	if (self) {
 		_messagesContainer = [NSMutableArray arrayWithArray:@[]];
+		_sessionManager = manager;
+		_sessionManager.chatDelegate = self;
+		
+		_tableView = tableView;
+		_tableView.delegate = self;
+		_tableView.dataSource = self;
+		[_tableView reloadData];
 	}
 	return self;
 }
+
+- (instancetype)init
+{
+	return [self initWithSessionMagager:nil andTableView:nil];
+}
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -34,20 +61,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
 	Message *message = [self.messagesContainer objectAtIndex:indexPath.row];
 	
-	UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"MessageCell"];
-	
-	cell.textLabel.text = message.messageText;
+	MessageMeTableViewCell *cell;
 	if ([message.senderName isEqualToString:self.sessionManager.session.myPeerID.displayName]) {
-		cell.detailTextLabel.text = @"Me";
+		cell = [self.tableView dequeueReusableCellWithIdentifier:@"MessageMeCell"];
 	} else {
-		cell.detailTextLabel.text = message.senderName;
+		cell = [self.tableView dequeueReusableCellWithIdentifier:@"MessageCompanionCell"];
 	}
+	[cell setupWithMessage:message];
 	
 	return cell;
-
 }
 
 - (void)receivedMessage:(Message *)message
@@ -57,11 +81,9 @@
 	});
 }
 
-
 - (void)insertNewMessage:(Message *)message
 {
 	[self.messagesContainer addObject:message];
-	
 	
 	[self.tableView beginUpdates];
 	

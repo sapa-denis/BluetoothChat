@@ -7,7 +7,21 @@
 //
 
 #import "MessageMeTableViewCell.h"
+#import "Message.h"
+
+@interface MessageMeTableViewCell ()
+
+@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+@property (weak, nonatomic) IBOutlet UILabel *senderNameLabel;
+
+@end
 
 @implementation MessageMeTableViewCell
+
+- (void)setupWithMessage:(Message *)message
+{
+	self.messageLabel.text = message.messageText;
+	self.senderNameLabel.text = message.senderName;
+}
 
 @end

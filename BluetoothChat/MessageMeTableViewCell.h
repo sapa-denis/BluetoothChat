@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class Message;
+
 @interface MessageMeTableViewCell : UITableViewCell
+
+- (void)setupWithMessage:(Message *)message;
 
 @end
