@@ -30,6 +30,7 @@ static NSString *const kServiceType = @"sapa-textchat";
 @property (nonatomic, strong) NSMutableArray *messagesContainer;
 
 @property (nonatomic, strong) DialogTableViewController *dialog;
+@property (nonatomic) CGRect keyboardFrame;
 
 @end
 
@@ -51,19 +52,33 @@ static NSString *const kServiceType = @"sapa-textchat";
 														   andTableView:self.chatTableView];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - UITableViewDataSource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.row == 0) {
-		CGFloat tableViewHeight = self.tableView.frame.size.height;
-		CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-		CGFloat navigationBarHeight = self.navigationController.navigationBar.frame.size.height;
-		return tableViewHeight - statusBarHeight - navigationBarHeight - 50;
-	}
-	
-	if (indexPath.row == 1) {
-		return 50;
+	if ([indexPath isMemberOfClass:[NSIndexPath class]]) {
+		if (indexPath.row == 0) {
+			CGFloat tableViewHeight = self.tableView.frame.size.height;
+			CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+			CGFloat navigationBarHeight = self.navigationController.navigationBar.frame.size.height;
+			return tableViewHeight - statusBarHeight - navigationBarHeight -_keyboardFrame.size.height - 50;
+		}
+		
+		if (indexPath.row == 1) {
+			return 50;
+		}
 	}
 	
 	return [super tableView:tableView heightForRowAtIndexPath:indexPath];
@@ -79,7 +94,6 @@ static NSString *const kServiceType = @"sapa-textchat";
 
 - (void)lostAllCompanion
 {
-	[self.sendButton setEnabled:NO];
 }
 
 #pragma mark - IBAction
@@ -103,6 +117,32 @@ static NSString *const kServiceType = @"sapa-textchat";
 	} else if (offsetByY < 0) {
 		[self.messageTextField becomeFirstResponder];
 	}
+}
+
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+	NSDictionary *userInfo = [notification userInfo];
+	[[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&_keyboardFrame];
+	[self.tableView beginUpdates];
+	[self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
+						  withRowAnimation:UITableViewRowAnimationNone];
+	[self.tableView endUpdates];
+
+}
+
+- (void)keyboardDidShow:(NSNotification *)notification
+{
+		[self.dialog scrollDialogDown];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+	_keyboardFrame = CGRectMake(0, 0, 0, 0);
+	
+	[self.tableView beginUpdates];
+	[self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
+						  withRowAnimation:UITableViewRowAnimationNone];
+	[self.tableView endUpdates];
 }
 
 @end

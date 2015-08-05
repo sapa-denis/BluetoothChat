@@ -13,5 +13,5 @@
 @interface DialogTableViewController : NSObject
 
 - (instancetype)initWithSessionMagager:(SessionManager *)manager andTableView:(UITableView *)tableView;
-
+- (void)scrollDialogDown;
 @end

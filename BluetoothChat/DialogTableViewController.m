@@ -24,7 +24,7 @@
 
 @implementation DialogTableViewController
 
-#pragma mark - UITableViewDataSource
+
 
 - (instancetype)initWithSessionMagager:(SessionManager *)manager
 						  andTableView:(UITableView *)tableView
@@ -48,6 +48,15 @@
 	return [self initWithSessionMagager:nil andTableView:nil];
 }
 
+- (void)scrollDialogDown
+{
+	NSUInteger numberOfRows = [self.tableView numberOfRowsInSection:0];
+	if (numberOfRows) {
+		[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(numberOfRows - 1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+	}
+}
+
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -74,6 +83,8 @@
 	return cell;
 }
 
+#pragma mark - SessionManagerChatDelegate
+
 - (void)receivedMessage:(Message *)message
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
@@ -93,10 +104,7 @@
 	
 	[self.tableView endUpdates];
 	
-	NSUInteger numberOfRows = [self.tableView numberOfRowsInSection:0];
-	if (numberOfRows) {
-		[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:(numberOfRows - 1) inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-	}
+	[self scrollDialogDown];
 }
 
 @end
